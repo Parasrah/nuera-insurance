@@ -1,0 +1,24 @@
+{
+  "name": "nuera-insurance",
+  "version": "1.0.0",
+  "description": "nuera insurance developer assignment",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Parasrah/nuera-insurance.git"
+  },
+  "keywords": [
+    "nuera",
+    "react",
+    "web"
+  ],
+  "author": "Parasrah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Parasrah/nuera-insurance/issues"
+  },
+  "homepage": "https://github.com/Parasrah/nuera-insurance#readme"
+}
