@@ -1,3 +1,6 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/25359bc9-7bb7-47a4-9c07-8662544220c5/deploy-status)](https://app.netlify.com/sites/agitated-feynman-9da556/deploys)
+[![Build Status](https://travis-ci.com/Parasrah/nuera-insurance.svg?branch=master)](https://travis-ci.com/Parasrah/nuera-insurance)
+
 # About
 
 TODO:
@@ -35,7 +38,7 @@ npm install
 
 ## Running
 
-> Note: There is already an instance of the application hosted at `nuera.parasrah.com`
+> Note: There is already an instance of the application hosted at [nuera.parasrah.com](https://nuera.parasrah.com)
 
 To run a development server on `http://localhost:9080` run the following:
 
