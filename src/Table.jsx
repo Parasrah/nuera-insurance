@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Row } from '@/Row'
 
 function Table ({ addRow, total, map, mapRow }) {
-  return <div />
+  return <Row />
 }
 
 Table.propTypes = {

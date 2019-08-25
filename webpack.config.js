@@ -30,11 +30,7 @@ let config = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'],
-          plugins: ['@babel/plugin-proposal-object-rest-spread']
-        }
+        loader: 'babel-loader'
       }
     ]
   },
