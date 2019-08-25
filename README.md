@@ -38,7 +38,7 @@ npm install
 
 ## Running
 
-> Note: There is already an instance of the application hosted at `nuera.parasrah.com`
+> Note: There is already an instance of the application hosted at [nuera.parasrah.com](https://nuera.parasrah.com)
 
 To run a development server on `http://localhost:9080` run the following:
 
