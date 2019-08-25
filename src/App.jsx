@@ -6,7 +6,6 @@ import { useTable } from '@hook/table'
 function App () {
   const tableHooks = useTable()
 
-  // explicitly pass in props in case API changes
   return (
     <Table
       {...tableHooks}
