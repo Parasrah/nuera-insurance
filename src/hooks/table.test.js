@@ -93,18 +93,6 @@ describe('#addRow', () => {
   })
 })
 
-describe('#map', () => {
-  test('can map to row values', () => {
-    addRow({ name: 'test-name', value: 50.5, category: 'Electronics' })
-    addRow({ name: 'another name', value: 60000, category: 'Kitchen' })
-    const transform = r => r.value
-    const res = map(transform)
-    expect(res).toHaveLength(2)
-    expect(res[0]).toEqual(50.5)
-    expect(res[1]).toEqual(60000)
-  })
-})
-
 describe('#total', () => {
   test('calculates total values', () => {
     const a = 10.5
