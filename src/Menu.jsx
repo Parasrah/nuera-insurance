@@ -9,7 +9,7 @@ const Menu = (() => {
     return (
       <div className={`menu ${css(styles.menu)}`}>
         {options.map(option => (
-          <div onClick={() => onClick(option)}>{option}</div>
+          <div key={option} onClick={() => onClick(option)}>{option}</div>
         ))}
       </div>
     )

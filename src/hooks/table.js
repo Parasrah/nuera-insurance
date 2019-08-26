@@ -31,7 +31,21 @@ import { Ok, Err } from '@shards/result'
 function isValidRow (row, categories) {
   return isValidCategory(row.category, categories)
     .map(() => isValidName(row.name))
+    // flatten
     .join()
+    .map(() => isValidValue(row.value))
+    // flatten
+    .join()
+}
+
+function isValidValue (value) {
+  if (typeof value !== 'number') {
+    return Err(Error('row value must be a number'))
+  }
+  if (Number.isNaN(value)) {
+    return Err(Error('row value must be a valid number'))
+  }
+  return Ok()
 }
 
 /**

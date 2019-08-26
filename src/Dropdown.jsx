@@ -25,7 +25,15 @@ const Dropdown = ({ options, value, onChange }) => {
 
 const styles = StyleSheet.create({
   dropdown: {
-
+    padding: '5px 7px',
+    margin: '0 5px',
+    transition: 'background-color 0.3s ease',
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    ':hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)'
+    }
   }
 })
 

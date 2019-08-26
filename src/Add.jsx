@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, css } from 'aphrodite'
 import Plus from '@/icons/plus.svg'
@@ -7,37 +7,99 @@ import { toast } from 'react-toastify'
 import { Input } from '@/Input'
 import { Dropdown } from '@/Dropdown'
 
-// TODO: look into optimizing onClick
-function Add ({ addRow, getCategories }) {
-  const [name, setName] = useState('')
-  const [value, setValue] = useState(0)
-  const [category, setCategory] = useState(getCategories()[0])
-  return (
-    <div className={css(styles.add)}>
-      <div className='filler' />
-      <Input placeholder='Name' value={name} onChange={setName} />
-      <Input type='number' placeholder='Value ($)' value={value} onChange={setValue} />
-      <Dropdown options={getCategories()} value={category} onChange={setCategory} />
-      <Plus
-        className={css(styles.button)}
-        onClick={() => addRow({ name, value, category })
-          .match({
-            onErr (err) {
-              toast.error(`Error: ${err.message}`)
-            },
-            onOk () {
-              setValue(0)
-              setName('')
-            }
-          })
+class Add extends React.Component {
+  constructor (props) {
+    super(props)
+
+    // binding
+    this.submit = this.submit.bind(this)
+    this.setValue = this.setValue.bind(this)
+    this.setName = this.setName.bind(this)
+    this.setCategory = this.setCategory.bind(this)
+
+    // init
+    this.nameInput = React.createRef()
+    this.state = {
+      name: '',
+      value: '',
+      category: props.getCategories()[0]
+    }
+  }
+
+  submit () {
+    this.props.addRow({
+      name: this.state.name,
+      value: this.state.value === '' ? Number.NaN : Number(this.state.value),
+      category: this.state.category
+    })
+      .match({
+        onErr: (err) => {
+          toast.error(`Error: ${err.message}`)
+        },
+        onOk: () => {
+          this.setValue('')
+          this.setName('')
+          this.focusNameInput()
         }
-      />
-      <div className='filler' />
-    </div>
-  )
+      })
+  }
+
+  focusNameInput () {
+    this.nameInput.current.focus()
+  }
+
+  setName (name) {
+    this.setState(() => ({ name }))
+  }
+
+  setValue (value) {
+    this.setState(() => ({ value }))
+  }
+
+  setCategory (category) {
+    this.setState(() => ({ category }))
+  }
+
+  componentDidMount () {
+    this.focusNameInput()
+  }
+
+  render () {
+    return (
+      <div className={css(styles.add)}>
+        <Input
+          style={styles.name}
+          placeholder='Name'
+          value={this.state.name}
+          onChange={this.setName}
+          onEnter={this.submit}
+          inputRef={this.nameInput}
+        />
+        <Input
+          type='number'
+          placeholder='Value ($)'
+          value={this.state.value}
+          onChange={this.setValue}
+          onEnter={this.submit}
+        />
+        <Dropdown
+          options={this.props.getCategories()}
+          value={this.state.category}
+          onChange={this.setCategory}
+        />
+        <Plus
+          className={css(styles.button)}
+          onClick={this.submit}
+        />
+      </div>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
+  name: {
+    marginLeft: '15px'
+  },
   add: {
     height: '60px',
     width: '100%',
@@ -53,7 +115,10 @@ const styles = StyleSheet.create({
     ':hover': {
       backgroundColor: 'rgba(255, 255, 255, 0.1)'
     },
-    transition: 'background-color 0.2s ease'
+    transition: 'background-color 0.2s ease',
+    marginRight: '10px',
+    cursor: 'pointer',
+    padding: '5px'
   }
 })
 

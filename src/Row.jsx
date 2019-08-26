@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   name: {
   },
   value: {
+    paddingLeft: '10px'
   },
   colored: {
     backgroundColor: 'rgba(255, 255, 255, 1)'
