@@ -21,8 +21,9 @@ exports[`#render renders correctly 1`] = `
         <span
           className="value grow"
         >
-          $
+          ($
           687.79
+          )
         </span>
         <div
           className="filler"
@@ -42,21 +43,19 @@ exports[`#render renders correctly 1`] = `
     <div
       className="add"
     >
-      <div
-        className="filler"
-      />
       <input
-        className="input"
+        className="input name"
         onChange={[Function]}
+        onKeyDown={[Function]}
         placeholder="Name"
         value=""
       />
       <input
-        className="input"
+        className="input "
         onChange={[Function]}
+        onKeyDown={[Function]}
         placeholder="Value ($)"
-        type="number"
-        value={0}
+        value=""
       />
       <div
         className="dropdown dropdown"
@@ -70,9 +69,6 @@ exports[`#render renders correctly 1`] = `
       <test-file-stub
         className="button"
         onClick={[Function]}
-      />
-      <div
-        className="filler"
       />
     </div>
   </div>

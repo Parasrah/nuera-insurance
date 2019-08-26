@@ -45,7 +45,9 @@ class Add extends React.Component {
   }
 
   focusNameInput () {
-    this.nameInput.current.focus()
+    if (this.nameInput && this.nameInput.current) {
+      this.nameInput.current.focus()
+    }
   }
 
   setName (name) {
