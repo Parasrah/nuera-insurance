@@ -10,7 +10,7 @@ function Row ({ name, value, id, deleteRow, colored }) {
   return (
     <div className={css(globalStyles.rowContainer, styles.row, colored && styles.colored)}>
       <span className={css(styles.grow, styles.name)}>{name}</span>
-      <span className={css(styles.grow, styles.value)}>${value}</span>
+      <span className={css(styles.grow, styles.value)}>${Number.parseFloat(value).toFixed(2)}</span>
       <Trash
         className={css(styles.trash)}
         onClick={() => deleteRow(id).match({

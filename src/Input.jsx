@@ -14,7 +14,7 @@ function Input ({
   return (
     <input
       className={css(styles.input, style)}
-      value={type === 'number' && value !== '' ? `$${value}` : value}
+      value={type === 'number' && value !== '' ? `${value}` : value}
       ref={inputRef}
       onChange={({ target }) => {
         const correctValue = (() => {
@@ -61,7 +61,7 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   type: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
-  style: PropTypes.object,
+  style: PropTypes.any,
   onEnter: PropTypes.func,
   inputRef: PropTypes.object
 }
