@@ -12,7 +12,7 @@ describe('#render', () => {
         category='Electronics'
         id={6}
         deleteRow={() => {}}
-        colored={true}
+        colored
       />)
       .toJSON()
     expect(tree).toMatchSnapshot()
