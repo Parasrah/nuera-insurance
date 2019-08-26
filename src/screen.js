@@ -1,4 +1,4 @@
-const breakpoint = 800
+const breakpoint = 1000
 
 function desktop (styles) {
   return {

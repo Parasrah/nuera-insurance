@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
       height: '70%',
       marginBottom: '5%',
       borderRadius: '10px',
-      boxShadow: '0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 3px 5px -1px rgba(0, 0, 0, 0.2)'
+      boxShadow: '0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 3px 5px -1px rgba(0, 0, 0, 0.2)',
+      border: '2px solid rgba(0, 0, 0, 0.2)'
     })
   },
   mobileSize: {
@@ -83,8 +84,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto, sans-serif',
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'hidden',
-    border: '2px solid rgba(0, 0, 0, 0.2)'
+    overflow: 'hidden'
   },
   filler: {
     flex: '1 0 0'
