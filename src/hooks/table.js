@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Maybe from '@shards/maybe'
+import { Ok, Err } from '@shards/result'
 
 // ---------------------- //
 // Showing usage of JSDoc //
@@ -25,44 +26,48 @@ import Maybe from '@shards/maybe'
  * Check if a row is valid
  * @param {Row} row
  * @param {[String]} categories
- * @returns {Maybe<Error>}
+ * @returns {Result<_, Error>}
  */
 function isValidRow (row, categories) {
   return isValidCategory(row.category, categories)
-    .match(
-      (err) => Maybe(err),
-      () => isValidName(row.name)
-    )
+    .match({
+      onOk () {
+        return isValidName(row.name)
+      },
+      onErr (err) {
+        return Err(err)
+      }
+    })
 }
 
 /**
  * Check if a category is valid
  * @param {String} category
  * @param {() => String[]} categories
- * @returns {Maybe<Error>}
+ * @returns {Result<_, Error>}
  */
 function isValidCategory (category, categories) {
   return Maybe(categories.find(c => c === category))
     .match(
       // found category
-      () => Maybe(),
+      () => Ok(),
       // no such category
-      () => Maybe(Error(`${category} is not a valid row category`))
+      () => Err(Error(`${category} is not a valid row category`))
     )
 }
 
 /**
  * @param {String} name
- * @returns {Maybe<Error>}
+ * @returns {Result<_, Error>}
  */
 function isValidName (name) {
   if (typeof name !== 'string') {
-    return Maybe(Error(`${name} is not a valid row name (must be string)`))
+    return Err(Error(`${name} is not a valid row name (must be string)`))
   }
   if (name.length === 0) {
-    return Maybe(Error('row name must have at least one character'))
+    return Err(Error('row name must have at least one character'))
   }
-  return Maybe()
+  return Ok()
 }
 
 /**
@@ -102,43 +107,43 @@ function useTable () {
 
   // ---- Public
 
-  // addRow :: Row => Maybe Error
+  // addRow :: Row => Result () Error
   const addRow = (row) => {
-    return isValidRow(row, getCategories()).match(
-      // Just Error
-      (error) => {
-        return Maybe(error)
-      },
-      // Nothing
-      () => {
+    return isValidRow(row, getCategories()).match({
+      onOk () {
         setRows([
           ...getRows(),
           Object.assign({}, row, {
             id: maxId(getRows()) + 1
           })
         ])
-        return Maybe()
+        return Ok()
+      },
+      onErr (err) {
+        return Err(err)
       }
-    )
+    })
   }
 
-  // mapRow :: Int -> (Row -> Row) -> Maybe Error
+  // mapRow :: Int -> (Row -> Row) -> Result () Error
   const mapRow = (id) => (transform) => Maybe(getRows().find(r => r.id === id))
     .match(
       // found row
       (row) => {
         // ensure it's a new row object
         const transformed = Object.assign({}, transform(row))
-        return isValidRow(transformed, getCategories()).match(
-          (err) => Maybe(err),
-          () => {
+        return isValidRow(transformed, getCategories()).match({
+          onOk () {
             setRows(getRows().map(r => r.id === id ? transformed : r))
-            return Maybe()
+            return Ok()
+          },
+          onErr (err) {
+            return Err(err)
           }
-        )
+        })
       },
       // no such row
-      () => Maybe(Error(`no row with id: ${id}`))
+      () => Err(Error(`no row with id: ${id}`))
     )
 
   // total :: _ -> Float
