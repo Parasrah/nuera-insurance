@@ -30,14 +30,8 @@ import { Ok, Err } from '@shards/result'
  */
 function isValidRow (row, categories) {
   return isValidCategory(row.category, categories)
-    .match({
-      onOk () {
-        return isValidName(row.name)
-      },
-      onErr (err) {
-        return Err(err)
-      }
-    })
+    .map(() => isValidName(row.name))
+    .join()
 }
 
 /**
@@ -132,15 +126,11 @@ function useTable () {
       (row) => {
         // ensure it's a new row object
         const transformed = Object.assign({}, transform(row))
-        return isValidRow(transformed, getCategories()).match({
-          onOk () {
-            setRows(getRows().map(r => r.id === id ? transformed : r))
-            return Ok()
-          },
-          onErr (err) {
-            return Err(err)
-          }
-        })
+        return isValidRow(transformed, getCategories())
+          .map(() => {
+            const updatedRows = getRows().map(r => r.id === id ? transformed : r)
+            setRows(updatedRows)
+          })
       },
       // no such row
       () => Err(Error(`no row with id: ${id}`))
