@@ -8,7 +8,7 @@
     "test:update": "jest --updateSnapshot",
     "build": "cross-env WEBPACK_ENV=prod webpack",
     "start": "cross-env WEBPACK_ENV=dev webpack-dev-server",
-    "lint": "standard \"src/**/*.{js,jsx}\""
+    "lint": "standard"
   },
   "repository": {
     "type": "git",

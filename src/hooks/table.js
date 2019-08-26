@@ -24,15 +24,14 @@ import Maybe from '@shards/maybe'
 /**
  * Check if a row is valid
  * @param {Row} row
- * @param {() -> String[]} categories
+ * @param {[String]} categories
  * @returns {Maybe<Error>}
  */
 function isValidRow (row, categories) {
-  isValidCategory(row.category, categories)
+  return isValidCategory(row.category, categories)
     .match(
-      // category exists, check name
-      () => isValidName(row.name),
-      () => Maybe(Error(`${row.category} is not a valid row category`))
+      (err) => Maybe(err),
+      () => isValidName(row.name)
     )
 }
 
@@ -43,7 +42,7 @@ function isValidRow (row, categories) {
  * @returns {Maybe<Error>}
  */
 function isValidCategory (category, categories) {
-  return Maybe(categories().find(c => c === category))
+  return Maybe(categories.find(c => c === category))
     .match(
       // found category
       () => Maybe(),
@@ -71,13 +70,22 @@ function isValidName (name) {
  * and no rows
  */
 function useTable () {
-  const [rows, setRows] = useState([])
-  const [categories] = useState([
-    'Electronics',
-    'Kitchen',
-    'Gardening',
-    'Vehicles'
-  ])
+  const [getRows, setRows] = (function () {
+    const [rows, setRows] = useState([])
+    const getRows = useTable.mockGetRows || (() => rows)
+    return [getRows, setRows]
+  })()
+
+  const [getCategories] = (function () {
+    const [categories] = useState([
+      'Electronics',
+      'Kitchen',
+      'Gardening',
+      'Vehicles'
+    ])
+    const getCategories = useTable.mockGetCategories || (() => categories)
+    return [getCategories]
+  })()
 
   // ----------------------------------------------- //
   // Showing usage of Hindley-Milner type signatures //
@@ -85,9 +93,9 @@ function useTable () {
 
   // ---- Private
 
-  // maxId :: (_ -> [Row]) -> Int
+  // maxId :: [Row] -> Int
   const maxId = (rows) => {
-    return rows()
+    return rows
       .map(r => r.id)
       .reduce((a, b) => (a > b ? a : b), 0)
   }
@@ -96,7 +104,7 @@ function useTable () {
 
   // addRow :: Row => Maybe Error
   const addRow = (row) => {
-    return isValidRow(row, categories).match(
+    return isValidRow(row, getCategories()).match(
       // Just Error
       (error) => {
         return Maybe(error)
@@ -104,9 +112,9 @@ function useTable () {
       // Nothing
       () => {
         setRows([
-          ...rows(),
+          ...getRows(),
           Object.assign({}, row, {
-            id: maxId(rows) + 1
+            id: maxId(getRows()) + 1
           })
         ])
         return Maybe()
@@ -115,26 +123,31 @@ function useTable () {
   }
 
   // mapRow :: Int -> (Row -> Row) -> Maybe Error
-  const mapRow = (id) => (transform) => Maybe(rows().find(r => r.id === id))
+  const mapRow = (id) => (transform) => Maybe(getRows().find(r => r.id === id))
     .match(
       // found row
       (row) => {
         // ensure it's a new row object
         const transformed = Object.assign({}, transform(row))
-        setRows(rows().map(r => r.id === id ? transformed : r))
-        return Maybe()
+        return isValidRow(transformed, getCategories()).match(
+          (err) => Maybe(err),
+          () => {
+            setRows(getRows().map(r => r.id === id ? transformed : r))
+            return Maybe()
+          }
+        )
       },
       // no such row
       () => Maybe(Error(`no row with id: ${id}`))
     )
 
   // total :: _ -> Float
-  const total = () => rows()
+  const total = () => getRows()
     .map(r => r.value)
     .reduce((a, b) => (a + b), 0)
 
   // map :: (Row -> a) -> [a]
-  const map = (transform) => rows().map(transform)
+  const map = (transform) => getRows().map(transform)
 
   return {
     addRow,
