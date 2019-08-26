@@ -3,19 +3,24 @@
 
 # About
 
-TODO:
+This application was developed as part of my application to Nuera Insurance, and is in no way official or a representation of the company. Although it was not requested, I've tried to highlight my skillsets that aren't necessarily related to code, such as:
+
+* Professional git workflow
+* Experience with hosting & domains
+* Project configuration (bundling, transpilation, linting)
+* Continuous integration (TravisCI)
 
 ## Webpack
 
-TODO:
+I typically prefer to create a customized webpack configuration for a project, and this project was no exception. I've set it up with `babel` transpilation as well to help ensure the application functions properly on all modern browsers.
 
 ## @shards
 
-TODO:
+I've used two libraries I authored, `@shards/maybe` and `@shards/result`, to make error handling in the application more declarative. To some these will seem familiar to fancy functional types, but I designed the API's to be more friendly in non-functional environments. As such neither are fantasyland compliant.
 
 ## React Hooks
 
-TODO:
+Due to the simplicity of the application, I felt something like `redux` would be overkill, so I opted to learn one of the newer `React` API's; hooks. All the state management occurs in `@hooks/table.js`, where I make use of the `useState` hook to create a `useTable` hook.
 
 # Setup
 

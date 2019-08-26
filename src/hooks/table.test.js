@@ -65,30 +65,30 @@ describe('#addRow', () => {
   test('returns Nothing with valid row', () => {
     return new Promise((resolve, reject) => {
       const res = addRow({ name: 'test-name', value: 50.5, category: 'Kitchen' })
-      res.match(
-        (err) => reject(err),
-        () => resolve()
-      )
+      res.match({
+        onErr: (err) => reject(err),
+        onOk: () => resolve()
+      })
     })
   })
 
   test('fails with invalid name', () => {
     return new Promise((resolve, reject) => {
       addRow({ name: '', value: 88, category: 'Kitchen' })
-        .match(
-          resolve,
-          () => reject(Error('should have failed with empty name'))
-        )
+        .match({
+          onErr: resolve,
+          onOk: () => reject(Error('should have failed with empty name'))
+        })
     })
   })
 
   test('fails with invalid category', () => {
     return new Promise((resolve, reject) => {
       addRow({ name: 'test name', value: 88, category: 'Skydiving' })
-        .match(
-          resolve,
-          () => reject(Error('should have failed with invalid category'))
-        )
+        .match({
+          onErr: resolve,
+          onOk: () => reject(Error('should have failed with invalid category'))
+        })
     })
   })
 })
@@ -121,10 +121,10 @@ describe('#mapRow', () => {
     const { id } = getStates()[0][0]
     const res = new Promise((resolve, reject) => {
       mapRow(id)(r => ({ ...r, name: `${r.name} world!` }))
-        .match(
-          reject,
-          resolve
-        )
+        .match({
+          onErr: reject,
+          onOk: resolve
+        })
     })
     const row = getStates()[0][0]
     expect(row.name).toEqual('hello world!')
@@ -136,10 +136,10 @@ describe('#mapRow', () => {
     const { id } = getStates()[0][0]
     const res = new Promise((resolve, reject) => {
       mapRow(id)(r => ({ ...r, name: 5 }))
-        .match(
-          resolve,
-          () => reject(Error('should have rejected invalid row'))
-        )
+        .match({
+          onErr: resolve,
+          onOk: () => reject(Error('should have rejected invalid row'))
+        })
     })
     const row = getStates()[0][0]
     expect(row.name).toEqual('hello')
