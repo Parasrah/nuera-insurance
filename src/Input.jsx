@@ -12,7 +12,9 @@ function Input ({
     <input
       className={css(styles.input)}
       value={value}
-      onChange={({ target }) => onChange(target.value)}
+      onChange={({ target }) => onChange(
+        type === 'number' ? Number(target.value) : target.value
+      )}
       placeholder={placeholder}
       type={type}
     />
@@ -21,9 +23,10 @@ function Input ({
 
 const styles = StyleSheet.create({
   input: {
-    height: '80%',
+    height: '60%',
     textDecoration: 'none',
-    borderRadius: '10px'
+    borderRadius: '10px',
+    fontFamily: 'Roboto, sans-serfif'
   }
 })
 

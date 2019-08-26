@@ -20,7 +20,7 @@ let config = {
     filename: isProd() ? '[name].[hash].js' : '[name].js'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.svg'],
+    extensions: ['.js', '.jsx'],
     alias: {
       '@': src(),
       '@hook': src('hooks')
@@ -44,7 +44,15 @@ let config = {
       },
       {
         test: /.svg$/,
-        loader: 'svg-inline-loader'
+        use: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            options: {
+              jsx: true
+            }
+          }
+        ]
       }
     ]
   },

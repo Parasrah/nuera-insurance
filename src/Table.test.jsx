@@ -8,9 +8,11 @@ jest.mock('@/Row')
 function getHookMocks () {
   return {
     addRow: jest.fn(),
-    total: jest.fn(),
-    map: jest.fn(),
-    mapRow: jest.fn()
+    getTotal: jest.fn().mockReturnValue(687.79),
+    fromCategories: jest.fn().mockReturnValue([]),
+    categoryTotal: jest.fn().mockReturnValue(66.99),
+    deleteRow: jest.fn(),
+    getCategories: jest.fn().mockReturnValue(['Electronics'])
   }
 }
 

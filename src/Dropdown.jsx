@@ -1,23 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, css } from 'aphrodite'
+import { Menu } from '@/Menu'
 
-function Dropdown ({ options, value, onChange }) {
+// TODO: look into optimizing onChange/onClick
+const Dropdown = ({ options, value, onChange }) => {
+  const [isClicked, setIsClicked] = useState(false)
+  const toggleIsClicked = () => setIsClicked(!isClicked)
   return (
-    <div className={`dropdown ${css(styles.container)}`}>
+    <div
+      className={`dropdown ${css(styles.dropdown)}`}
+      onClick={toggleIsClicked}
+    >{value}
       <div className={`menu ${css(styles.menu)}`}>
-        {options.map(option => <div>{option}</div>)}
+        <Menu
+          show={isClicked}
+          options={options}
+          onClick={onChange}
+        />
       </div>
     </div>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  dropdown: {
 
-  },
-  menu: {
-    opacity: 0
   }
 })
 

@@ -20,7 +20,7 @@ I've used two libraries I authored, `@shards/maybe` and `@shards/result`, to mak
 
 ## React Hooks
 
-Due to the simplicity of the application, I felt something like `redux` would be overkill, so I opted to learn one of the newer `React` API's; hooks. All the state management occurs in `@hooks/table.js`, where I make use of the `useState` hook to create a `useTable` hook.
+Due to the simplicity of the application, I felt something like `redux` would be overkill, so I opted to learn one of the newer `React` API's; hooks. Most of the state management occurs in `@hooks/table.js`, where I make use of the `useState` hook to create a `useTable` hook.
 
 # Setup
 

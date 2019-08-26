@@ -1,69 +1,90 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, css } from 'aphrodite'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { Ok } from '@shards/result'
 
+import { Row } from '@/Row'
 import { Category } from '@/Category'
 import { Add } from '@/Add'
+import { desktop, mobile } from '@/screen'
 
 function Table ({
   addRow,
-  total,
-  mapRow,
+  getTotal,
   fromCategories,
   categoryTotal,
   deleteRow,
   getCategories
 }) {
   return (
-    <div className={css(styles.mobileSize, styles.desktopSize, styles.container)}>
-      {fromCategories()
-        // ensure there is at least one row
-        .filter(([_, rows]) => rows.length)
-        .map(([category, rows]) => (
-          <Category
-            key={category}
-            category={category}
-            rows={rows}
-            total={categoryTotal(category)}
-          />
-        ))
-      }
+    <div className={css(styles.mobileSize, styles.desktopSize, styles.table)}>
+      <div className={css(styles.categories)}>
+        {fromCategories()
+          .filter(([_, rows]) => !!rows.length)
+          .map(([category, rows], cIndex) => (
+            <Category
+              key={category}
+              category={category}
+              total={categoryTotal(category)}
+              hasRows={!!rows.length}
+              first={cIndex === 0}
+            >
+              {rows.map((r, rIndex) => <Row key={r.id} {...r} deleteRow={deleteRow} colored={!!(rIndex % 2)} />)}
+            </Category>
+          ))
+        }
+        <Category
+          key='Total'
+          category='Total'
+          total={Ok(getTotal())}
+          hasRows={false}
+          first={false}
+        />
+      </div>
       <div className={css(styles.filler)} />
-      <Add
-        className={css(styles.add)}
-        addRow={addRow}
-        getCategories={getCategories}
-      />
+      <div className={css(styles.bottom)}>
+        <Add
+          addRow={addRow}
+          getCategories={getCategories}
+        />
+      </div>
+      <ToastContainer />
     </div>
   )
 }
 
-const breakpoint = 800
-
 const styles = StyleSheet.create({
+  categories: {
+    overflowY: 'auto'
+  },
+  bottom: {
+    flex: '0 0 auto'
+  },
   desktopSize: {
-    [`@media (min-width: ${breakpoint + 1}px)`]: {
+    ...desktop({
       width: '50%',
       height: '70%',
       marginBottom: '5%',
-      borderRadius: '10px'
-    }
+      borderRadius: '10px',
+      boxShadow: '0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 3px 5px -1px rgba(0, 0, 0, 0.2)'
+    })
   },
   mobileSize: {
-    [`@media (max-width: ${breakpoint}px)`]: {
+    ...mobile({
       height: '100%',
       width: '100%',
       margin: 0
-    }
+    })
   },
-  container: {
+  table: {
     backgroundColor: '#eeeeee',
     fontFamily: 'Roboto, sans-serif',
     display: 'flex',
-    flexDirection: 'column'
-  },
-  add: {
-    alignSelf: 'flex-end'
+    flexDirection: 'column',
+    overflow: 'hidden',
+    border: '2px solid rgba(0, 0, 0, 0.2)'
   },
   filler: {
     flex: '1 0 0'
@@ -72,8 +93,7 @@ const styles = StyleSheet.create({
 
 Table.propTypes = {
   addRow: PropTypes.func.isRequired,
-  total: PropTypes.func.isRequired,
-  mapRow: PropTypes.func.isRequired,
+  getTotal: PropTypes.func.isRequired,
   fromCategories: PropTypes.func.isRequired,
   categoryTotal: PropTypes.func.isRequired,
   deleteRow: PropTypes.func.isRequired,

@@ -1,12 +1,14 @@
 import { StyleSheet } from 'aphrodite'
 
+const width = 85
+
 const globalStyles = StyleSheet.create({
   rowContainer: {
     height: '50px',
-    width: '90%',
+    width: `${width}%`,
     display: 'flex',
-    justifyContent: 'spaceBetween',
-    padding: '0px 5%',
+    justifyContent: 'space-between',
+    padding: `0px ${(100 - width) / 2}%`,
     alignItems: 'center'
   }
 })
