@@ -1,3 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`#render renders correctly 1`] = `<div />`;
+exports[`#render renders correctly 1`] = `
+<div
+  className="rowContainer row colored"
+>
+  <span
+    className="grow name"
+  >
+    TV
+  </span>
+  <span
+    className="grow value"
+  >
+    $
+    979.99
+  </span>
+  <test-file-stub
+    className="trash"
+    onClick={[Function]}
+  />
+</div>
+`;

@@ -26,12 +26,12 @@ jest.mock('react', () => {
   }
 })
 
-let addRow, map, mapRow, total
+let addRow, getTotal
 
 beforeEach(() => {
   useTable.mockGetRows = () => getStates()[0]
   useTable.mockGetCategories = () => getStates()[1]
-  ;({ addRow, map, mapRow, total } = useTable())
+  ;({ addRow, getTotal } = useTable())
 })
 
 afterEach(() => {
@@ -93,56 +93,12 @@ describe('#addRow', () => {
   })
 })
 
-describe('#map', () => {
-  test('can map to row values', () => {
-    addRow({ name: 'test-name', value: 50.5, category: 'Electronics' })
-    addRow({ name: 'another name', value: 60000, category: 'Kitchen' })
-    const transform = r => r.value
-    const res = map(transform)
-    expect(res).toHaveLength(2)
-    expect(res[0]).toEqual(50.5)
-    expect(res[1]).toEqual(60000)
-  })
-})
-
-describe('#total', () => {
+describe('#getTotal', () => {
   test('calculates total values', () => {
     const a = 10.5
     const b = 0.86
     addRow({ name: 'test-name', value: a, category: 'Electronics' })
     addRow({ name: 'another name', value: b, category: 'Kitchen' })
-    expect(total()).toEqual(a + b)
-  })
-})
-
-describe('#mapRow', () => {
-  test('can map to new row successfully', () => {
-    addRow({ name: 'hello', value: 10, category: 'Electronics' })
-    const { id } = getStates()[0][0]
-    const res = new Promise((resolve, reject) => {
-      mapRow(id)(r => ({ ...r, name: `${r.name} world!` }))
-        .match({
-          onErr: reject,
-          onOk: resolve
-        })
-    })
-    const row = getStates()[0][0]
-    expect(row.name).toEqual('hello world!')
-    return res
-  })
-
-  test('fails when resulting row is not valid', () => {
-    addRow({ name: 'hello', value: 10, category: 'Electronics' })
-    const { id } = getStates()[0][0]
-    const res = new Promise((resolve, reject) => {
-      mapRow(id)(r => ({ ...r, name: 5 }))
-        .match({
-          onErr: resolve,
-          onOk: () => reject(Error('should have rejected invalid row'))
-        })
-    })
-    const row = getStates()[0][0]
-    expect(row.name).toEqual('hello')
-    return res
+    expect(getTotal()).toEqual(a + b)
   })
 })

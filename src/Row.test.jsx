@@ -6,7 +6,14 @@ import renderer from 'react-test-renderer'
 describe('#render', () => {
   test('renders correctly', () => {
     const tree = renderer
-      .create(<Row />)
+      .create(<Row
+        name='TV'
+        value={979.99}
+        category='Electronics'
+        id={6}
+        deleteRow={() => {}}
+        colored
+      />)
       .toJSON()
     expect(tree).toMatchSnapshot()
   })

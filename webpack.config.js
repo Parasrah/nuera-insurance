@@ -2,6 +2,7 @@ const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 // only two modes, default to production
 const isProd = () => process.env.WEBPACK_ENV !== 'dev'
@@ -19,7 +20,7 @@ let config = {
     filename: isProd() ? '[name].[hash].js' : '[name].js'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.svg'],
+    extensions: ['.js', '.jsx'],
     alias: {
       '@': src(),
       '@hook': src('hooks')
@@ -28,13 +29,37 @@ let config = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader'
+        ]
+      },
+      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /.svg$/,
+        use: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            options: {
+              jsx: true
+            }
+          }
+        ]
       }
     ]
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: isProd() ? '[name].[hash].css' : '[name].css'
+    }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
       {

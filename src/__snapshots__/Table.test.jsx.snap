@@ -2,6 +2,82 @@
 
 exports[`#render renders correctly 1`] = `
 <div
-  className="mobileSize desktopSize blue"
-/>
+  className="mobileSize desktopSize table"
+>
+  <div
+    className="categories"
+  >
+    <div
+      className="category"
+    >
+      <div
+        className="rowContainer row false"
+      >
+        <span
+          className="name grow"
+        >
+          Total
+        </span>
+        <span
+          className="value grow"
+        >
+          $
+          687.79
+        </span>
+        <div
+          className="filler"
+        />
+        <div
+          className="line"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="filler"
+  />
+  <div
+    className="bottom"
+  >
+    <div
+      className="add"
+    >
+      <div
+        className="filler"
+      />
+      <input
+        className="input"
+        onChange={[Function]}
+        placeholder="Name"
+        value=""
+      />
+      <input
+        className="input"
+        onChange={[Function]}
+        placeholder="Value ($)"
+        type="number"
+        value={0}
+      />
+      <div
+        className="dropdown dropdown"
+        onClick={[Function]}
+      >
+        Electronics
+        <div
+          className="menu "
+        />
+      </div>
+      <test-file-stub
+        className="button"
+        onClick={[Function]}
+      />
+      <div
+        className="filler"
+      />
+    </div>
+  </div>
+  <div
+    className="Toastify"
+  />
+</div>
 `;

@@ -99,6 +99,9 @@ function useTable () {
       .reduce((a, b) => (a > b ? a : b), 0)
   }
 
+  // findRow :: Int -> Maybe Row
+  const findRow = (id) => Maybe(getRows().find(r => r.id === id))
+
   // ---- Public
 
   // addRow :: Row => Result () Error
@@ -119,36 +122,43 @@ function useTable () {
     })
   }
 
-  // mapRow :: Int -> (Row -> Row) -> Result () Error
-  const mapRow = (id) => (transform) => Maybe(getRows().find(r => r.id === id))
-    .match(
-      // found row
-      (row) => {
-        // ensure it's a new row object
-        const transformed = Object.assign({}, transform(row))
-        return isValidRow(transformed, getCategories())
-          .map(() => {
-            const updatedRows = getRows().map(r => r.id === id ? transformed : r)
-            setRows(updatedRows)
-          })
-      },
-      // no such row
-      () => Err(Error(`no row with id: ${id}`))
-    )
-
-  // total :: _ -> Float
-  const total = () => getRows()
+  // getTotal :: _ -> Float
+  const getTotal = () => getRows()
     .map(r => r.value)
     .reduce((a, b) => (a + b), 0)
 
-  // map :: (Row -> a) -> [a]
-  const map = (transform) => getRows().map(transform)
+  // categoryTotal :: String -> Result Float Error
+  const categoryTotal = (category) => isValidCategory(category, getCategories())
+    .map(() => {
+      return getRows()
+        .filter(r => r.category === category)
+        .map(r => r.value)
+        .reduce((a, b) => (a + b), 0)
+    })
+
+  // fromCategories :: _ -> [String, [Row]]
+  const fromCategories = () => getCategories()
+    .map(c => {
+      return [c, getRows().filter(r => r.category === c)]
+    })
+
+  // deleteRow :: Int -> Result _ Error
+  const deleteRow = (id) => findRow(id)
+    .match(
+      () => {
+        setRows(getRows().filter(r => r.id !== id))
+        return Ok()
+      },
+      () => Err(Error(`no such row with id ${id}`))
+    )
 
   return {
     addRow,
-    total,
-    map,
-    mapRow
+    getTotal,
+    categoryTotal,
+    fromCategories,
+    deleteRow,
+    getCategories
   }
 }
 
