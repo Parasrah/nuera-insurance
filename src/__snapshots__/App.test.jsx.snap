@@ -2,6 +2,10 @@
 
 exports[`#render renders correctly 1`] = `
 <div
-  className="mobileSize desktopSize blue"
-/>
+  className="container"
+>
+  <div
+    className="table"
+  />
+</div>
 `;
