@@ -27,9 +27,16 @@ class Add extends React.Component {
   }
 
   submit () {
+    const value = (() => {
+      if (this.state.value === '') {
+        return Number.isNaN
+      } else {
+        return Number(Number.parseFloat(this.state.value).toFixed(2))
+      }
+    })()
     this.props.addRow({
       name: this.state.name,
-      value: this.state.value === '' ? Number.NaN : Number(this.state.value),
+      value,
       category: this.state.category
     })
       .match({

@@ -61,9 +61,13 @@ exports[`#render renders correctly 1`] = `
         className="dropdown dropdown"
         onClick={[Function]}
       >
-        Electronics
-        <div
-          className="menu "
+        <span>
+          Electronics
+        </span>
+        <test-file-stub
+          className="chevron"
+          preserveAspectRatio={true}
+          viewBox="0 0 24 24"
         />
       </div>
       <test-file-stub

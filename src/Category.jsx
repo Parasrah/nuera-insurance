@@ -17,7 +17,7 @@ function Category ({ category, hasRows, total, children, first }) {
       >
         <span className={css(styles.name, styles.grow)}>{category}</span>
         {total.match({
-          onOk: (value) => (<span className={css(styles.value, styles.grow)}>(${value})</span>),
+          onOk: (value) => (<span className={css(styles.value, styles.grow)}>(${Number.parseFloat(value).toFixed(2)})</span>),
           onErr (err) {
             console.error(err)
             return (<span className={css(styles.value, styles.grow)}>-</span>)
