@@ -45,18 +45,34 @@ exports[`#render renders correctly 1`] = `
     >
       <input
         className="input name"
+        id="name"
+        name="name"
         onChange={[Function]}
         onKeyDown={[Function]}
         placeholder="Name"
         value=""
       />
+      <label
+        className="label"
+        htmlFor="name"
+      >
+        name
+      </label>
       <input
         className="input "
+        id="value"
+        name="value"
         onChange={[Function]}
         onKeyDown={[Function]}
         placeholder="Value ($)"
         value=""
       />
+      <label
+        className="label"
+        htmlFor="value"
+      >
+        value
+      </label>
       <div
         className="dropdown dropdown"
         onClick={[Function]}
@@ -66,7 +82,6 @@ exports[`#render renders correctly 1`] = `
         </span>
         <test-file-stub
           className="chevron"
-          preserveAspectRatio={true}
           viewBox="0 0 24 24"
         />
       </div>
