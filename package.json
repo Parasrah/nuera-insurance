@@ -1,6 +1,6 @@
 {
   "name": "nuera-insurance",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "nuera insurance developer assignment",
   "main": "src/index.js",
   "scripts": {

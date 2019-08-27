@@ -9,34 +9,40 @@ function Input ({
   placeholder,
   style,
   onEnter,
-  inputRef
+  inputRef,
+  label: labelStr
 }) {
   return (
-    <input
-      className={css(styles.input, style)}
-      value={type === 'number' && value !== '' ? `${value}` : value}
-      ref={inputRef}
-      onChange={({ target }) => {
-        const correctValue = (() => {
-          if (type === 'number') {
-            return target.value
-              .split(/\.(.*)/).slice(0, 2)
-              .map(s => s.replace(/\./, ''))
-              .join('.')
-              .replace(/[^0-9.]/g, '')
-          } else {
-            return target.value
+    <>
+      <input
+        className={css(styles.input, style)}
+        value={type === 'number' && value !== '' ? `${value}` : value}
+        ref={inputRef}
+        name={labelStr}
+        id={labelStr}
+        onChange={({ target }) => {
+          const correctValue = (() => {
+            if (type === 'number') {
+              return target.value
+                .split(/\.(.*)/).slice(0, 2)
+                .map(s => s.replace(/\./, ''))
+                .join('.')
+                .replace(/[^0-9.]/g, '')
+            } else {
+              return target.value
+            }
+          })()
+          return onChange(correctValue)
+        }}
+        placeholder={placeholder}
+        onKeyDown={({ key }) => {
+          if (key === 'Enter' && typeof onEnter === 'function') {
+            setTimeout(onEnter, 0)
           }
-        })()
-        return onChange(correctValue)
-      }}
-      placeholder={placeholder}
-      onKeyDown={({ key }) => {
-        if (key === 'Enter' && typeof onEnter === 'function') {
-          setTimeout(onEnter, 0)
-        }
-      }}
-    />
+        }}
+      />
+      <label className={css(styles.label)} htmlFor={labelStr}>{labelStr}</label>
+    </>
   )
 }
 
@@ -53,6 +59,10 @@ const styles = StyleSheet.create({
     paddingLeft: '10px',
     border: 0,
     maxWidth: '250px'
+  },
+  label: {
+    position: 'absolute',
+    opacity: 0
   }
 })
 
@@ -61,6 +71,7 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   type: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   style: PropTypes.any,
   onEnter: PropTypes.func,
   inputRef: PropTypes.object
