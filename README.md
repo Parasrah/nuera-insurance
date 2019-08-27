@@ -3,10 +3,10 @@
 
 # About
 
-This application was developed as part of my application to Nuera Insurance, and is in no way official or a representation of the company. Although it was not requested, I've tried to highlight my skillsets that aren't necessarily related to code, such as:
+This application was developed as part of my application to Nuera Insurance, and is in no way official or a representation of the company. Although it was not requested, I've tried to highlight some other skillsets that aren't necessarily related to technical experience with React/Javascript, such as:
 
-* Professional git workflow
-* Experience with hosting & domains
+* Organized git workflow
+* Hosting & domain configuration
 * Project configuration (bundling, transpilation, linting)
 * Continuous integration (TravisCI)
 
@@ -16,11 +16,23 @@ I typically prefer to create a customized webpack configuration for a project, a
 
 ## @shards
 
-I've used two libraries I authored, `@shards/maybe` and `@shards/result`, to make error handling in the application more declarative. To some these will seem familiar to fancy functional types, but I designed the API's to be more friendly in non-functional environments. As such neither are fantasyland compliant.
+I've used two libraries I authored, [@shards/maybe](https://github.com/shard-js/maybe) and [@shards/result](https://github.com/shard-js/result), to make error handling in the application more declarative. To some these will seem familiar to the fantasyland compliant types, but I designed the API's to be more friendly in non-functional environments, and as such neither are fantasyland compliant.
 
 ## React Hooks
 
 Due to the simplicity of the application, I felt something like `redux` would be overkill, so I opted to learn one of the newer `React` API's; hooks. Most of the state management occurs in `@hooks/table.js`, where I make use of the `useState` hook to create a `useTable` hook.
+
+## Styling
+
+Most of my experience with application styling is with `sass`, but my recent experience with `elm-css` made me want to try a similar solution in Javascript. As a result, I've used Aphrodite for most of the styling.
+
+## Third Party Components
+
+The only third party component/styles I made use of was `react-toastify`, and everything else was crafted specifically for this project.
+
+## Testing
+
+I have written some tests using `Jest`, and have added snapshot tests for several components, as well as unit tests for most of the `@hook/table` module. Again I understand this was not required, but I found that doing so helped me to verify the application was working properly.
 
 # Setup
 

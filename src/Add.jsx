@@ -83,6 +83,7 @@ class Add extends React.Component {
           onChange={this.setName}
           onEnter={this.submit}
           inputRef={this.nameInput}
+          label='name'
         />
         <Input
           type='number'
@@ -90,6 +91,7 @@ class Add extends React.Component {
           value={this.state.value}
           onChange={this.setValue}
           onEnter={this.submit}
+          label='value'
         />
         <Dropdown
           options={this.props.getCategories()}

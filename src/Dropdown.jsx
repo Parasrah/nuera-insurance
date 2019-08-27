@@ -18,7 +18,6 @@ const Dropdown = ({ options, value, onChange }) => {
       <Chevron
         className={css(styles.chevron)}
         viewBox='0 0 24 24'
-        preserveAspectRatio
       />
       <Menu
         show={isClicked}
